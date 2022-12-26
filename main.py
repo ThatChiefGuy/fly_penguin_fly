@@ -1,4 +1,5 @@
 import pygame
+import Player
 
 
 class Game:
@@ -7,11 +8,12 @@ class Game:
         pygame.display.set_caption(title)
         self.Fps = fps
 
-    def draw(self):
-        self.window.fill((195, 231, 55))
+    def draw(self, draw_player):
+        self.window.fill((43, 208, 237))
+        draw_player.player_group.draw(self.window)
         pygame.display.update()
 
-    def main(self):
+    def main(self, draw_player):
         clock = pygame.time.Clock()
         run = True
         while run:
@@ -20,10 +22,12 @@ class Game:
                 if event.type == pygame.QUIT:
                     run = False
 
-            self.draw()
+            self.draw(draw_player)
         pygame.quit()
 
 
-game = Game(600, 800, "Snow bal fight ", 60)
+game = Game(700, 900, "Snow bal fight ", 60)
+player = Player.Player(100, 100, 300, 700)
+
 if __name__ == "__main__":
-    game.main()
+    game.main(player)
