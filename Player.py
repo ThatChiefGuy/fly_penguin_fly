@@ -13,3 +13,19 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.y = starting_y
         self.rect.x = starting_x
+        self.velocity_x = 0
+
+    def movement(self, key_input):
+        self.rect.x += self.velocity_x
+
+        if key_input[(ord("d"))]:
+            self.velocity_x = 10
+        else:
+            if self.velocity_x > 0:
+                self.velocity_x -= 0.5
+
+        if key_input[(ord("a"))]:
+            self.velocity_x = -10
+        else:
+            if self.velocity_x < 0:
+                self.velocity_x += 0.5
