@@ -14,18 +14,29 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = starting_y
         self.rect.x = starting_x
         self.velocity_x = 0
+        self.control = True
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
 
-        if key_input[(ord("d"))]:
+        if key_input[(ord("d"))] and self.control is True:
             self.velocity_x = 10
         else:
             if self.velocity_x > 0:
                 self.velocity_x -= 0.5
 
-        if key_input[(ord("a"))]:
+        if key_input[(ord("a"))] and self.control is True:
             self.velocity_x = -10
         else:
             if self.velocity_x < 0:
                 self.velocity_x += 0.5
+
+    def collisions(self):
+        if self.rect.x < -40:
+            self.velocity_x = 10
+
+        if self.rect.x + self.rect.width > 740:
+            self.velocity_x = -10
+            self.control = False
+        else:
+            self.control = True

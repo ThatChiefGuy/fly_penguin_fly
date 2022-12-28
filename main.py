@@ -42,7 +42,7 @@ class Game:
 
             key_input = pygame.key.get_pressed()
             self.player.movement(key_input)
-
+            self.player.collisions()
             self.draw()
         pygame.quit()
 
