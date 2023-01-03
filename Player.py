@@ -14,10 +14,12 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = starting_y
         self.rect.x = starting_x
         self.velocity_x = 0
+        self.velocity_y = 0
         self.control = True
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
+        self.rect.y += self.velocity_y
 
         if key_input[(ord("d"))] and self.control is True:
             self.velocity_x = 10
