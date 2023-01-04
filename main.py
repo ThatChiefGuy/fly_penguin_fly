@@ -1,6 +1,7 @@
 import pygame
 import Player
 import rock
+import random
 import math
 
 
@@ -16,7 +17,7 @@ class Game:
         self.Fps = fps
 
         self.player = Player.Player(90, 90, 300, 100)
-        self.rock = rock.Rock((50, 50))
+        self.rock = rock.Rock((50, 50), (self.window_width - 50, random.randrange(0, self.window_height)))
 
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (700, 350))
