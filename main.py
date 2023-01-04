@@ -1,17 +1,23 @@
 import pygame
 import Player
+import rock
 import math
 
 
 class Game:
     def __init__(self, window_size_x, window_size_y, title, fps):
         pygame.init()
+
         self.window_width = window_size_x
         self.window_height = window_size_y
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         pygame.display.set_caption(title)
+
         self.Fps = fps
+
         self.player = Player.Player(90, 90, 300, 100)
+        self.rock = rock.Rock((50, 50))
+
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (700, 350))
         self.back_ground_height = back_ground.get_height()
@@ -25,6 +31,7 @@ class Game:
             self.window.blit(self.back_ground, (0, i * self.back_ground_height + self.scroll))
 
         self.player.player_group.draw(self.window)
+        self.rock.rock_group.draw(self.window)
         pygame.display.update()
 
     def main(self):
