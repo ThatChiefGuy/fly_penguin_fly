@@ -15,15 +15,20 @@ class Game:
         pygame.display.set_caption(title)
 
         self.Fps = fps
+        self.rock_group = pygame.sprite.Group()
 
         self.player = Player.Player(90, 90, 300, 100)
-        self.rock = rock.Rock((50, 50), (self.window_width - 50, random.randrange(0, self.window_height)))
+        self.rock = rock.Rock((30, 30), random.randrange(-20, -5), random.randrange(300, self.window_height - 100),
+                              window_size_x, self.rock_group)
 
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (700, 350))
         self.back_ground_height = back_ground.get_height()
         self.tiles = math.ceil(self.window_height / self.back_ground_height) + 1
         self.scroll = 0
+        self.current_time = pygame.time.get_ticks()
+        self.rock_last_spawn = 0
+        self.rock_wait_time = 10
 
     def draw(self):
         self.window.fill((43, 208, 237))
@@ -45,12 +50,24 @@ class Game:
                     run = False
 
             self.scroll -= 5
+            self.current_time = pygame.time.get_ticks()
+
+            if self.current_time - self.rock_last_spawn >= self.rock_wait_time:
+                self.rock = rock.Rock((30, 30), random.randrange(-30, -10),
+                                      random.randrange(100, self.window_height - 100),
+                                      self.window_width, self.rock_group)
+
+                self.rock_last_spawn = self.current_time
+
             if abs(self.scroll) > self.back_ground_height:
                 self.scroll = 0
 
             key_input = pygame.key.get_pressed()
             self.player.movement(key_input)
             self.player.collisions()
+
+            self.rock.rock_group.update()
+
             self.draw()
         pygame.quit()
 
