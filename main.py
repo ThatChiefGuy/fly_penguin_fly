@@ -18,7 +18,7 @@ class Game:
         self.rock_group = pygame.sprite.Group()
 
         self.player = Player.Player(90, 90, 300, 100)
-        self.rock = rock.Rock((30, 30), random.randrange(-20, -5), random.randrange(300, self.window_height - 100),
+        self.rock = rock.Rock((30, 30), random.randrange(-20, -5), random.randrange(20, self.window_height - 100),
                               window_size_x, self.rock_group)
 
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
@@ -28,7 +28,7 @@ class Game:
         self.scroll = 0
         self.current_time = pygame.time.get_ticks()
         self.rock_last_spawn = 0
-        self.rock_wait_time = 10
+        self.rock_wait_time = 500
 
     def draw(self):
         self.window.fill((43, 208, 237))

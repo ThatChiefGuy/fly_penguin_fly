@@ -33,6 +33,18 @@ class Player(pygame.sprite.Sprite):
             if self.velocity_x < 0:
                 self.velocity_x += 0.5
 
+        if key_input[(ord("s"))]:
+            self.velocity_y = 10
+        else:
+            if self.velocity_y > 0:
+                self.velocity_y -= 0.5
+
+        if key_input[(ord("w"))]:
+            self.velocity_y = -10
+        else:
+            if self.velocity_y < 0:
+                self.velocity_y += 0.5
+
     def collisions(self):
         if self.rect.x < -40:
             self.velocity_x = 10
