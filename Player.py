@@ -54,3 +54,9 @@ class Player(pygame.sprite.Sprite):
             self.control = False
         else:
             self.control = True
+
+        if self.rect.y < -40:
+            self.velocity_y = 10
+
+        if self.rect.y + self.rect.height > 940:
+            self.velocity_y = -10
