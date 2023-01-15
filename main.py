@@ -36,6 +36,10 @@ class Game:
         for i in range(0, self.tiles):
             self.window.blit(self.back_ground, (0, i * self.back_ground_height + self.scroll))
 
+        # draws player hp
+        pygame.draw.rect(self.window, (255, 0, 0), (10, 10, self.player.current_health / self.player.health_ratio, 25))
+        pygame.draw.rect(self.window, (0, 0, 0), (10, 10, self.player.health_bar_length, 25), 4)
+
         self.player.player_group.draw(self.window)
         self.rock.rock_group.draw(self.window)
         pygame.display.update()
@@ -65,7 +69,7 @@ class Game:
             key_input = pygame.key.get_pressed()
             self.player.movement(key_input)
             self.player.collisions()
-
+            self.player.collisions_with(self.rock.rock_group)
             self.rock.rock_group.update()
 
             self.draw()

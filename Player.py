@@ -16,6 +16,10 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x = 0
         self.velocity_y = 0
         self.control = True
+        self.current_health = 1000
+        self.maximum_health = 1000
+        self.health_bar_length = 350
+        self.health_ratio = self.maximum_health / self.health_bar_length
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
@@ -60,3 +64,19 @@ class Player(pygame.sprite.Sprite):
 
         if self.rect.y + self.rect.height > 940:
             self.velocity_y = -10
+
+    def get_damage(self, amount):
+        if self.current_health > 0:
+            self.current_health -= amount
+        else:
+            self.current_health = 0
+
+    def get_health(self, amount):
+        if self.current_health < self.maximum_health:
+            self.current_health += amount
+        else:
+            self.current_health = self.maximum_health
+
+    def collisions_with(self, sprite_group):
+        if pygame.sprite.spritecollide(self, sprite_group, True):
+            self.get_damage(100)
