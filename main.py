@@ -22,7 +22,7 @@ class Game:
         self.player = Player.Player(90, 90, 300, 100)
         self.rock = rock.Rock((30, 30), random.randrange(-20, -5), random.randrange(20, self.window_height - 100),
                               window_size_x, self.rock_group)
-        self.bird = Bird.Bird(self.bird_group, (70, 60))
+        self.bird = Bird.Bird(self.bird_group, (70, 60), (200, 200))
 
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (self.window_width, self.window_height))
