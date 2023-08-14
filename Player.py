@@ -49,11 +49,11 @@ class Player(pygame.sprite.Sprite):
             if self.velocity_y < 0:
                 self.velocity_y += 0.5
 
-    def collisions(self):
+    def collisions(self, window_width, window_height):
         if self.rect.x < -40:
             self.velocity_x = 10
 
-        if self.rect.x + self.rect.width > 740:
+        if self.rect.x + self.rect.width > window_width:
             self.velocity_x = -10
             self.control = False
         else:
@@ -62,14 +62,14 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y < -40:
             self.velocity_y = 10
 
-        if self.rect.y + self.rect.height > 940:
+        if self.rect.y + self.rect.height > window_height:
             self.velocity_y = -10
 
     def get_damage(self, amount):
-        if self.current_health > 0:
+        if self.current_health > 0 or not self.current_health == 0:
             self.current_health -= amount
         else:
-            self.current_health = 0
+            pass
 
     def get_health(self, amount):
         if self.current_health < self.maximum_health:
@@ -77,6 +77,10 @@ class Player(pygame.sprite.Sprite):
         else:
             self.current_health = self.maximum_health
 
-    def collisions_with(self, sprite_group):
-        if pygame.sprite.spritecollide(self, sprite_group, True):
+    def collisions_rock(self, rock_group):
+        if pygame.sprite.spritecollide(self, rock_group, True):
             self.get_damage(100)
+
+
+
+
