@@ -18,8 +18,9 @@ class Game:
         self.Fps = fps
         self.rock_group = pygame.sprite.Group()
         self.bird_group = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
 
-        self.player = Player.Player(90, 90, 300, 100)
+        self.player = Player.Player(90, 90, 300, 100, self.player_group)
         self.rock = rock.Rock((30, 30), random.randrange(-20, -5), random.randrange(20, self.window_height - 100),
                               window_size_x, self.rock_group)
         self.bird = Bird.Bird(self.bird_group, (70, 60), (200, 200))
@@ -43,7 +44,7 @@ class Game:
         pygame.draw.rect(self.window, (255, 0, 0), (10, 10, self.player.current_health / self.player.health_ratio, 25))
         pygame.draw.rect(self.window, (0, 0, 0), (10, 10, self.player.health_bar_length, 25), 4)
 
-        self.player.player_group.draw(self.window)
+        self.player_group.draw(self.window)
         self.rock.rock_group.draw(self.window)
         self.bird_group.draw(self.window)
         pygame.display.update()
@@ -71,11 +72,8 @@ class Game:
                 self.scroll = 0
 
             key_input = pygame.key.get_pressed()
-            self.player.movement(key_input)
-            self.player.collisions(self.window_width, self.window_height)
-            self.player.collisions_rock(self.rock_group)
-            self.rock.rock_group.update()
-            self.bird_group.update()
+            self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group)
+            self.rock_group.update()
 
             self.draw()
         pygame.quit()

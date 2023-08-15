@@ -2,14 +2,13 @@ import pygame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, width, height, starting_x, starting_y):
+    def __init__(self, width, height, starting_x, starting_y, player_group):
         super().__init__()
         self.image = pygame.image.load(
             "toppng.com-white-penguin-flying-club-penguin-flying-pengui-962x768.png").convert_alpha()
+        self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
-        self.player_group = pygame.sprite.Group()
-        self.player_group.add(self)
         self.rect = self.image.get_rect()
         self.rect.y = starting_y
         self.rect.x = starting_x
@@ -20,49 +19,60 @@ class Player(pygame.sprite.Sprite):
         self.maximum_health = 1000
         self.health_bar_length = 350
         self.health_ratio = self.maximum_health / self.health_bar_length
+        player_group.add(self)
+
+    def update(self, key_input, window_size, rock_group):
+        self.movement(key_input)
+        self.collisions(window_size[0], window_size[1])
+        self.collisions_rock(rock_group)
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
         self.rect.y += self.velocity_y
 
-        if key_input[(ord("d"))] and self.control is True:
-            self.velocity_x = 10
-        else:
-            if self.velocity_x > 0:
-                self.velocity_x -= 0.5
+        if self.control is True:
+            if key_input[(ord("d"))]:
+                self.velocity_x = 10
 
-        if key_input[(ord("a"))] and self.control is True:
-            self.velocity_x = -10
-        else:
-            if self.velocity_x < 0:
-                self.velocity_x += 0.5
+            if key_input[(ord("a"))]:
+                self.velocity_x = -10
 
-        if key_input[(ord("s"))]:
-            self.velocity_y = 10
-        else:
-            if self.velocity_y > 0:
-                self.velocity_y -= 0.5
+            if key_input[(ord("s"))]:
+                self.velocity_y = 10
 
-        if key_input[(ord("w"))]:
-            self.velocity_y = -10
-        else:
-            if self.velocity_y < 0:
-                self.velocity_y += 0.5
+            if key_input[(ord("w"))]:
+                self.velocity_y = -10
+
+        if self.velocity_y < 0:
+            self.velocity_y += 0.5
+
+        if self.velocity_y > 0:
+            self.velocity_y -= 0.5
+
+        if self.velocity_x < 0:
+            self.velocity_x += 0.5
+
+        if self.velocity_x > 0:
+            self.velocity_x -= 0.5
+
+        if self.velocity_x == 0 and self.velocity_y == 0:
+            self.control = True
 
     def collisions(self, window_width, window_height):
-        if self.rect.x < -40:
+        if self.rect.x < 0:
+            self.control = False
             self.velocity_x = 10
 
         if self.rect.x + self.rect.width > window_width:
-            self.velocity_x = -10
             self.control = False
-        else:
-            self.control = True
+            self.velocity_x = -10
 
-        if self.rect.y < -40:
+        if self.rect.y < 0:
+            self.control = False
             self.velocity_y = 10
 
         if self.rect.y + self.rect.height > window_height:
+            self.control = False
             self.velocity_y = -10
 
     def get_damage(self, amount):
@@ -79,7 +89,7 @@ class Player(pygame.sprite.Sprite):
 
     def collisions_rock(self, rock_group):
         if pygame.sprite.spritecollide(self, rock_group, True):
-            self.get_damage(100)
+            self.get_damage(50)
 
 
 

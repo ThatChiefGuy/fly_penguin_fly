@@ -39,11 +39,6 @@ class Rock(pygame.sprite.Sprite):
         if self.side == "right":
             self.rect.x = window_x
 
-    def explosion(self):
-        print("ëxplosion happems")
-
-        self.image = pygame.image.load("explosion-14272.png")
-
     def update(self):
         self.rect.y += self.velocity_y
         self.rect.x += self.velocity_x
