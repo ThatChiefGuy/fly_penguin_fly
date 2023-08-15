@@ -21,10 +21,11 @@ class Player(pygame.sprite.Sprite):
         self.health_ratio = self.maximum_health / self.health_bar_length
         player_group.add(self)
 
-    def update(self, key_input, window_size, rock_group):
+    def update(self, key_input, window_size, rock_group, bird_group):
         self.movement(key_input)
         self.collisions(window_size[0], window_size[1])
         self.collisions_rock(rock_group)
+        self.collisions_bird(bird_group)
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
@@ -63,7 +64,7 @@ class Player(pygame.sprite.Sprite):
             self.control = False
             self.velocity_x = 10
 
-        if self.rect.x + self.rect.width > window_width:
+        if self.rect.right > window_width:
             self.control = False
             self.velocity_x = -10
 
@@ -71,7 +72,7 @@ class Player(pygame.sprite.Sprite):
             self.control = False
             self.velocity_y = 10
 
-        if self.rect.y + self.rect.height > window_height:
+        if self.rect.bottom > window_height:
             self.control = False
             self.velocity_y = -10
 
@@ -91,6 +92,6 @@ class Player(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, rock_group, True):
             self.get_damage(50)
 
-
-
-
+    def collisions_bird(self, bird_group):
+        if pygame.sprite.spritecollide(self, bird_group, True):
+            self.get_damage(100)

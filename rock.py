@@ -2,21 +2,6 @@ import random
 import pygame
 
 
-class Explosion(pygame.sprite.Sprite):
-    def __init__(self, position, size):
-        super().__init__()
-        self.image = pygame.image.load("explosion-14272.png")
-        self.image = pygame.transform.scale(self.image, size)
-        self.rect = self.image.get_rect()
-        self.rect.center = position
-        self.timespan = 5
-
-    def update(self):
-        self.timespan -= 1
-        if self.timespan <= 0:
-            self.kill()
-
-
 class Rock(pygame.sprite.Sprite):
     def __init__(self, size, velocity_y, starting_y, window_x, rock_group):
         super().__init__()
