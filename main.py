@@ -77,7 +77,7 @@ class Game:
             key_input = pygame.key.get_pressed()
             self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group, self.bird_group)
             self.rock_group.update()
-            self.bird_group.update()
+            self.bird_group.update(self.player_group)
             self.draw()
         pygame.quit()
 

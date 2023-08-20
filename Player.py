@@ -93,5 +93,8 @@ class Player(pygame.sprite.Sprite):
             self.get_damage(50)
 
     def collisions_bird(self, bird_group):
-        if pygame.sprite.spritecollide(self, bird_group, True):
-            self.get_damage(100)
+        if pygame.sprite.spritecollide(self, bird_group, False):
+            if not pygame.sprite.spritecollide(self, bird_group, False)[0].died:
+                self.get_damage(150)
+                pygame.sprite.spritecollide(self, bird_group, False)[0].died = True
+                pygame.sprite.spritecollide(self, bird_group, False)[0].velocity_y = -10

@@ -42,7 +42,7 @@ class Bird(pygame.sprite.Sprite):
         self.died = False
         bird_group.add(self)
 
-    def update(self):
+    def update(self, player_group):
         self.movement()
         self.collisions()
         self.animation()
@@ -95,5 +95,5 @@ class Bird(pygame.sprite.Sprite):
 
         if self.died is True:
             self.animation_increase = 0
-            print(self.died)
 
+            self.velocity_x = self.velocity_x * -1
