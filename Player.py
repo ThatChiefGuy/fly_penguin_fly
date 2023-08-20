@@ -5,7 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, width, height, starting_x, starting_y, player_group):
         super().__init__()
         self.image = pygame.image.load(
-            "toppng.com-white-penguin-flying-club-penguin-flying-pengui-962x768.png").convert_alpha()
+            "player_image.png").convert_alpha()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
