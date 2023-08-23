@@ -5,7 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, width, height, starting_x, starting_y, player_group):
         super().__init__()
         self.image = pygame.image.load(
-            "player_image.png").convert_alpha()
+            "player_image_frame_1.png").convert_alpha()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x = 0
         self.velocity_y = 0
         self.control = True
-        self.current_health = 1000
+        self.current_health = 100
         self.maximum_health = 1000
         self.health_bar_length = 350
         self.health_ratio = self.maximum_health / self.health_bar_length
@@ -72,9 +72,28 @@ class Player(pygame.sprite.Sprite):
             self.control = False
             self.velocity_y = 10
 
-        if self.rect.bottom > window_height:
+        if self.rect.bottom > window_height and self.current_health > 1:
             self.control = False
             self.velocity_y = -10
+
+        if self.current_health <= 0:
+            self.control = False
+            self.velocity_y += 1
+
+        if self.current_health == 1000:
+            self.image = pygame.image.load("player_frames/player_image_frame_1.png")
+
+        if 800 > self.current_health < 1000:
+            self.image = pygame.image.load("player_frames/player_image_frame_2.png")
+
+        if 600 > self.current_health < 800:
+            self.image = pygame.image.load("player_frames/player_image_frame_3.png")
+
+        if 400 > self.current_health < 600:
+            self.image = pygame.image.load("player_frames/player_image_frame_4.png")
+
+        if 200 > self.current_health < 400:
+            self.image = pygame.image.load("player_frames/player_image_frame_5.png")
 
     def get_damage(self, amount):
         if self.current_health > 0 or not self.current_health == 0:
