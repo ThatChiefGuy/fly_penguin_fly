@@ -20,7 +20,7 @@ class Game:
         self.bird_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
 
-        self.player = Player.Player(90, 90, 300, 100, self.player_group)
+        self.player = Player.Player(100, 90, 300, 100, self.player_group)
 
         back_ground = pygame.image.load("backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (self.window_width, self.window_height))
@@ -29,7 +29,7 @@ class Game:
         self.scroll = 0
         self.current_time = pygame.time.get_ticks()
         self.rock_last_spawn = 0
-        self.rock_wait_time = 500
+        self.rock_wait_time = 2000
         self.bird_time = 5000
         self.bird_last_spawn = 0
 
@@ -75,7 +75,7 @@ class Game:
                 self.scroll = 0
 
             key_input = pygame.key.get_pressed()
-            self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group, self.bird_group)
+            self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group, self.bird_group, self.player_group)
             self.rock_group.update()
             self.bird_group.update(self.player_group)
             self.draw()

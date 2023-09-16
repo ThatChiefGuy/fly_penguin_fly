@@ -34,5 +34,3 @@ class Rock(pygame.sprite.Sprite):
             self.velocity_x -= 0.3
         else:
             self.velocity_x += 0.3
-
-
