@@ -24,7 +24,7 @@ class Game:
 
         self.player = Player.Player(100, 90, 300, 100, self.player_group)
 
-        back_ground = pygame.image.load("backgound.jpg").convert_alpha()
+        back_ground = pygame.image.load("Assets/backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (self.window_width, self.window_height))
         self.back_ground_height = back_ground.get_height()
         self.tiles = math.ceil(self.window_height / self.back_ground_height) + 1

@@ -5,7 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, width, height, starting_x, starting_y, player_group):
         super().__init__()
         self.image = pygame.image.load(
-            "player_image.png").convert_alpha()
+            "Assets/player_image.png").convert_alpha()
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x = 0
         self.velocity_y = 0
         self.control = True
-        self.current_health = 1000
+        self.current_health = 100
         self.maximum_health = 1000
         self.health_bar_length = 350
         self.speed = 10
@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.increased_speed = False
         self.health_ratio = self.maximum_health / self.health_bar_length
         player_group.add(self)
+        self.is_alive = True
 
     def update(self, key_input, window_size, rock_group, bird_group, player_group, present_group):
         self.movement(key_input)
@@ -96,11 +97,12 @@ class Player(pygame.sprite.Sprite):
         if self.current_health > self.maximum_health:
             self.current_health = self.maximum_health
 
+        if self.current_health < 0 == self.current_health:
+            self.is_alive = False
+
     def get_damage(self, amount):
         if self.current_health > 0 or not self.current_health == 0:
             self.current_health -= amount
-        else:
-            pass
 
     def get_health(self, amount):
         if self.current_health < self.maximum_health:

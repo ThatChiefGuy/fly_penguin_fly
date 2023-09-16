@@ -11,21 +11,21 @@ class Bird(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         if self.side == "right":
-            self.image_list = [pygame.transform.scale(pygame.image.load("bird_frames/Frame-1.png"), size),
-                               pygame.transform.scale(pygame.image.load("bird_frames/Frame-2.png"), size),
-                               pygame.transform.scale(pygame.image.load("bird_frames/Frame-3.png"), size),
-                               pygame.transform.scale(pygame.image.load("bird_frames/Frame-4.png"), size)
+            self.image_list = [pygame.transform.scale(pygame.image.load("Assets/bird_frames/Frame-1.png"), size),
+                               pygame.transform.scale(pygame.image.load("Assets/bird_frames/Frame-2.png"), size),
+                               pygame.transform.scale(pygame.image.load("Assets/bird_frames/Frame-3.png"), size),
+                               pygame.transform.scale(pygame.image.load("Assets/bird_frames/Frame-4.png"), size)
                                ]
             self.rect.center = 0 - self.rect.width, random.randint(150, self.window_size_y - 150)
         if self.side == "left":
             self.image_list = [pygame.transform.scale(
-                               pygame.transform.flip(pygame.image.load("bird_frames/Frame-1.png"), True, False), size),
+                               pygame.transform.flip(pygame.image.load("Assets/bird_frames/Frame-1.png"), True, False), size),
                                pygame.transform.scale(
-                               pygame.transform.flip(pygame.image.load("bird_frames/Frame-2.png"), True, False), size),
+                               pygame.transform.flip(pygame.image.load("Assets/bird_frames/Frame-2.png"), True, False), size),
                                pygame.transform.scale(
-                               pygame.transform.flip(pygame.image.load("bird_frames/Frame-3.png"), True, False), size),
+                               pygame.transform.flip(pygame.image.load("Assets/bird_frames/Frame-3.png"), True, False), size),
                                pygame.transform.scale(
-                               pygame.transform.flip(pygame.image.load("bird_frames/Frame-4.png"), True, False), size),
+                               pygame.transform.flip(pygame.image.load("Assets/bird_frames/Frame-4.png"), True, False), size),
                                ]
             self.rect.center = self.window_size_x, random.randint(150, self.window_size_y - 150)
         self.image = self.image_list[0]

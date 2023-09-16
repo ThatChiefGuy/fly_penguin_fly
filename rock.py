@@ -6,7 +6,7 @@ class Rock(pygame.sprite.Sprite):
     def __init__(self, size, velocity_y, starting_y, window_x, rock_group):
         super().__init__()
         self.size = size
-        self.image = pygame.image.load("rock.png").convert_alpha()
+        self.image = pygame.image.load("Assets/rock.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, self.size)
 
         self.rect = self.image.get_rect()

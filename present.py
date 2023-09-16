@@ -7,9 +7,9 @@ class Present(pygame.sprite.Sprite):
         super().__init__()
         self.type = random.choice(["speed", "health"])
         if self.type == "health":
-            self.image = pygame.image.load("health_present.png")
+            self.image = pygame.image.load("Assets/health_present.png")
         if self.type == "speed":
-            self.image = pygame.image.load("speed_present.png")
+            self.image = pygame.image.load("Assets/speed_present.png")
         self.rect = self.image.get_rect()
         self.rect.y = -10
         self.rect.x = x
