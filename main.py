@@ -4,6 +4,7 @@ import Player
 import rock
 import random
 import math
+import present
 
 
 class Game:
@@ -19,6 +20,7 @@ class Game:
         self.rock_group = pygame.sprite.Group()
         self.bird_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
+        self.present_group = pygame.sprite.Group()
 
         self.player = Player.Player(100, 90, 300, 100, self.player_group)
 
@@ -32,6 +34,8 @@ class Game:
         self.rock_wait_time = 2000
         self.bird_time = 5000
         self.bird_last_spawn = 0
+        self.present_last_spawn = 0
+        self.present_time = 10000
 
     def draw(self):
         self.window.fill((43, 208, 237))
@@ -46,6 +50,7 @@ class Game:
         self.player_group.draw(self.window)
         self.rock_group.draw(self.window)
         self.bird_group.draw(self.window)
+        self.present_group.draw(self.window)
         pygame.display.update()
 
     def main(self):
@@ -71,13 +76,18 @@ class Game:
                 bird.Bird(self.bird_group, (70, 60), (self.window_width, self.window_height))
                 self.bird_last_spawn = self.current_time
 
+            if self.current_time - self.present_last_spawn >= self.present_time:
+                present.Present(self.present_group, random.randrange(0, self.window_width))
+                self.present_last_spawn = self.current_time
+
             if abs(self.scroll) > self.back_ground_height:
                 self.scroll = 0
 
             key_input = pygame.key.get_pressed()
-            self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group, self.bird_group, self.player_group)
+            self.player_group.update(key_input, (self.window_width, self.window_height), self.rock_group, self.bird_group, self.player_group, self.present_group)
             self.rock_group.update()
             self.bird_group.update(self.player_group)
+            self.present_group.update()
             self.draw()
         pygame.quit()
 

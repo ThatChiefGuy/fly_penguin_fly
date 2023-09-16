@@ -18,14 +18,19 @@ class Player(pygame.sprite.Sprite):
         self.current_health = 1000
         self.maximum_health = 1000
         self.health_bar_length = 350
+        self.speed = 10
+        self.increased_speed_time = 500
+        self.increased_speed_timer = 0
+        self.increased_speed = False
         self.health_ratio = self.maximum_health / self.health_bar_length
         player_group.add(self)
 
-    def update(self, key_input, window_size, rock_group, bird_group, player_group):
+    def update(self, key_input, window_size, rock_group, bird_group, player_group, present_group):
         self.movement(key_input)
         self.collisions(window_size[0], window_size[1])
         self.collisions_rock(rock_group)
         self.collisions_bird(bird_group)
+        self.collisions_present(present_group)
 
     def movement(self, key_input):
         self.rect.x += self.velocity_x
@@ -33,16 +38,16 @@ class Player(pygame.sprite.Sprite):
 
         if self.control is True:
             if key_input[(ord("d"))]:
-                self.velocity_x = 10
+                self.velocity_x = self.speed
 
             if key_input[(ord("a"))]:
-                self.velocity_x = -10
+                self.velocity_x = -self.speed
 
             if key_input[(ord("s"))]:
-                self.velocity_y = 10
+                self.velocity_y = self.speed
 
             if key_input[(ord("w"))]:
-                self.velocity_y = -10
+                self.velocity_y = -self.speed
 
         if self.velocity_y < 0:
             self.velocity_y += 0.5
@@ -80,6 +85,17 @@ class Player(pygame.sprite.Sprite):
             self.control = False
             self.velocity_y += 1
 
+        if self.increased_speed is True:
+            self.increased_speed_timer += 1
+
+        if self.increased_speed_timer >= self.increased_speed_time:
+            self.increased_speed = False
+            self.increased_speed_timer = 0
+            self.speed = 10
+
+        if self.current_health > self.maximum_health:
+            self.current_health = self.maximum_health
+
     def get_damage(self, amount):
         if self.current_health > 0 or not self.current_health == 0:
             self.current_health -= amount
@@ -90,7 +106,7 @@ class Player(pygame.sprite.Sprite):
         if self.current_health < self.maximum_health:
             self.current_health += amount
         else:
-            self.current_health = self.maximum_health
+            pass
 
     def collisions_rock(self, rock_group):
         if pygame.sprite.spritecollide(self, rock_group, True):
@@ -102,3 +118,13 @@ class Player(pygame.sprite.Sprite):
                 self.get_damage(150)
                 pygame.sprite.spritecollide(self, bird_group, False)[0].died = True
                 pygame.sprite.spritecollide(self, bird_group, False)[0].velocity_y = -10
+
+    def collisions_present(self, present_group):
+        collided = pygame.sprite.spritecollide(self, present_group, True)
+        if collided:
+            if collided[0].type == "health":
+                self.get_health(100)
+
+            if collided[0].type == "speed":
+                self.speed = 15
+                self.increased_speed = True
