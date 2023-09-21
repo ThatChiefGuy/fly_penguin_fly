@@ -5,6 +5,8 @@ import rock
 import random
 import math
 import present
+import os
+os.chdir("C:/Users/perop/Fly_penguin")
 
 
 class Game:
@@ -31,11 +33,14 @@ class Game:
         self.scroll = 0
         self.current_time = pygame.time.get_ticks()
         self.rock_last_spawn = 0
-        self.rock_wait_time = 2000
+        self.rock_wait_time = 1000
         self.bird_time = 5000
         self.bird_last_spawn = 0
         self.present_last_spawn = 0
         self.present_time = 10000
+        self.game_death_font = pygame.font.Font("Assets/game_font.ttf", 200)
+        self.game_score_font = pygame.font.Font("Assets/game_font.ttf", 80)
+        self.score = 0
 
     def draw(self):
         self.window.fill((43, 208, 237))
@@ -47,6 +52,14 @@ class Game:
         pygame.draw.rect(self.window, (255, 0, 0), (10, 10, self.player.current_health / self.player.health_ratio, 25))
         pygame.draw.rect(self.window, (0, 0, 0), (10, 10, self.player.health_bar_length, 25), 4)
 
+        if self.player.is_alive is False:
+            you_died_text_img = self.game_death_font.render("YOU DIED", True, (255, 0, 0))
+            total_score_img = self.game_score_font.render(f"Total score:{self.score}", True, (0, 0, 0))
+            self.window.blit(total_score_img, (340, 500))
+            self.window.blit(you_died_text_img, (270, 200))
+
+        score_text_img = self.game_score_font.render(f"{self.score}", True, (0, 0, 0))
+        self.window.blit(score_text_img, (800, 0))
         self.player_group.draw(self.window)
         self.rock_group.draw(self.window)
         self.bird_group.draw(self.window)
@@ -89,6 +102,8 @@ class Game:
             self.bird_group.update(self.player_group)
             self.present_group.update()
             self.draw()
+            if self.player.is_alive is True:
+                self.score += 1
         pygame.quit()
 
 

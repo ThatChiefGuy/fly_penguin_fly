@@ -15,11 +15,11 @@ class Player(pygame.sprite.Sprite):
         self.velocity_x = 0
         self.velocity_y = 0
         self.control = True
-        self.current_health = 100
+        self.current_health = 1000
         self.maximum_health = 1000
         self.health_bar_length = 350
         self.speed = 10
-        self.increased_speed_time = 500
+        self.increased_speed_time = 300
         self.increased_speed_timer = 0
         self.increased_speed = False
         self.health_ratio = self.maximum_health / self.health_bar_length
@@ -38,16 +38,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity_y
 
         if self.control is True:
-            if key_input[(ord("d"))]:
+            if key_input[(ord("d"))] or key_input[pygame.K_RIGHT]:
                 self.velocity_x = self.speed
 
-            if key_input[(ord("a"))]:
+            if key_input[(ord("a"))] or key_input[pygame.K_LEFT]:
                 self.velocity_x = -self.speed
 
-            if key_input[(ord("s"))]:
+            if key_input[(ord("s"))] or key_input[pygame.K_DOWN]:
                 self.velocity_y = self.speed
 
-            if key_input[(ord("w"))]:
+            if key_input[(ord("w"))] or key_input[pygame.K_UP]:
                 self.velocity_y = -self.speed
 
         if self.velocity_y < 0:
@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
         if self.current_health > self.maximum_health:
             self.current_health = self.maximum_health
 
-        if self.current_health < 0 == self.current_health:
+        if self.current_health < 0 or self.current_health == 0:
             self.is_alive = False
 
     def get_damage(self, amount):
@@ -112,12 +112,12 @@ class Player(pygame.sprite.Sprite):
 
     def collisions_rock(self, rock_group):
         if pygame.sprite.spritecollide(self, rock_group, True):
-            self.get_damage(50)
+            self.get_damage(150)
 
     def collisions_bird(self, bird_group):
         if pygame.sprite.spritecollide(self, bird_group, False):
             if not pygame.sprite.spritecollide(self, bird_group, False)[0].died:
-                self.get_damage(150)
+                self.get_damage(300)
                 pygame.sprite.spritecollide(self, bird_group, False)[0].died = True
                 pygame.sprite.spritecollide(self, bird_group, False)[0].velocity_y = -10
 
