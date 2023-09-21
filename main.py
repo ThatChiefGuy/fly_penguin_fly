@@ -19,16 +19,16 @@ class Game:
         self.window = pygame.display.set_mode((self.window_width, self.window_height))
         pygame.display.set_caption(title)
         self.started = False
+        self.restarted = False
         self.Fps = fps
         self.rock_group = pygame.sprite.Group()
         self.bird_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.Group()
         self.present_group = pygame.sprite.Group()
-        self.button_group = pygame.sprite.Group()
 
         self.player = Player.Player(100, 90, 600, 450, self.player_group)
-        self.start_button = button.Button(pygame.image.load("Assets/start_button.png"), 600, 600, self.button_group, self.started, 0.3)
-
+        self.start_button = button.Button(pygame.image.load("Assets/start_button.png"), 600, 600, 0.3, self.window)
+        self.restart_button = button.Button(pygame.image.load("Assets/restart_button.png"), 600, 700, 0.3, self.window)
         back_ground = pygame.image.load("Assets/backgound.jpg").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (self.window_width, self.window_height))
         self.back_ground_height = back_ground.get_height()
@@ -61,10 +61,12 @@ class Game:
             total_score_img = self.game_score_font.render(f"Total score:{self.score}", True, (0, 0, 0))
             self.window.blit(total_score_img, (340, 500))
             self.window.blit(you_died_text_img, (270, 200))
+            self.restarted = self.restart_button.draw()
 
         if self.started is False:
             fly_penguin_img = self.game_name_font.render("Fly Penguin", True, (255, 0, 0))
             self.window.blit(fly_penguin_img, (100, 200))
+            self.started = self.start_button.draw()
 
         score_text_img = self.game_score_font.render(f"{self.score}", True, (0, 0, 0))
         self.window.blit(score_text_img, (800, 0))
@@ -72,7 +74,6 @@ class Game:
         self.rock_group.draw(self.window)
         self.bird_group.draw(self.window)
         self.present_group.draw(self.window)
-        self.button_group.draw(self.window)
         pygame.display.update()
 
     def main(self):
@@ -84,13 +85,16 @@ class Game:
                 if event.type == pygame.QUIT:
                     run = False
 
-            self.started = self.start_button.action
-
-            if self.started is True:
-                self.start_button.kill()
-
             self.scroll -= 5
             self.current_time = pygame.time.get_ticks()
+            if self.restarted is True:
+                self.player.current_health = 1000
+                self.player.is_alive = True
+                self.player.rect.center = 600, 450
+                self.score = 0
+                self.player.velocity_y = 0
+                self.restarted = False
+                self.started = False
 
             if self.current_time - self.rock_last_spawn >= self.rock_wait_time and self.started is True:
                 rock.Rock((30, 30), random.randrange(-30, -10),
@@ -115,7 +119,6 @@ class Game:
             self.rock_group.update()
             self.bird_group.update(self.player_group)
             self.present_group.update()
-            self.button_group.update()
             self.draw()
             if self.player.is_alive is True and self.started is True:
                 self.score += 1
