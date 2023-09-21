@@ -10,8 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
         self.rect = self.image.get_rect()
-        self.rect.y = starting_y
-        self.rect.x = starting_x
+        self.rect.center = starting_x, starting_y
         self.velocity_x = 0
         self.velocity_y = 0
         self.control = True
