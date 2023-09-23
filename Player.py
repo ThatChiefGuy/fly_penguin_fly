@@ -1,11 +1,16 @@
 import pygame
+import random
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, width, height, starting_x, starting_y, player_group):
         super().__init__()
+        pygame.mixer.pre_init(44100, size=16, channels=2, buffer=512)
         self.image = pygame.image.load(
             "Assets/player_image.png").convert_alpha()
+        self.hit_sounds = [pygame.mixer.Sound("Assets/penguin_RIP01.wav"),
+                           pygame.mixer.Sound("Assets/penguin_RIP02.wav")]
+        self.penguin_call = pygame.mixer.Sound("Assets/penguin_call.wav")
         self.image.set_colorkey((0, 0, 0))
         self.image = pygame.transform.scale(self.image, (width, height))
         self.image.set_colorkey((246, 246, 246))
@@ -111,6 +116,7 @@ class Player(pygame.sprite.Sprite):
 
     def collisions_rock(self, rock_group):
         if pygame.sprite.spritecollide(self, rock_group, True):
+            random.choice(self.hit_sounds).play()
             self.get_damage(150)
 
     def collisions_bird(self, bird_group):
@@ -119,6 +125,7 @@ class Player(pygame.sprite.Sprite):
                 self.get_damage(300)
                 pygame.sprite.spritecollide(self, bird_group, False)[0].died = True
                 pygame.sprite.spritecollide(self, bird_group, False)[0].velocity_y = -10
+                random.choice(self.hit_sounds).play()
 
     def collisions_present(self, present_group):
         collided = pygame.sprite.spritecollide(self, present_group, True)
@@ -129,3 +136,4 @@ class Player(pygame.sprite.Sprite):
             if collided[0].type == "speed":
                 self.speed = 15
                 self.increased_speed = True
+            self.penguin_call.play()

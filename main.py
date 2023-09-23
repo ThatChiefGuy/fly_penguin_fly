@@ -13,6 +13,9 @@ os.chdir("C:/Users/perop/Fly_penguin")
 class Game:
     def __init__(self, window_size_x, window_size_y, title, fps):
         pygame.init()
+        pygame.mixer.music.load("Assets/starting_screen_music.mp3")
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
         self.window_height, self.window_width = window_size_x, window_size_y
         self.window_width = window_size_x
         self.window_height = window_size_y
@@ -20,6 +23,7 @@ class Game:
         pygame.display.set_caption(title)
         self.started = False
         self.restarted = False
+        self.main_music_played = False
         self.Fps = fps
         self.rock_group = pygame.sprite.Group()
         self.bird_group = pygame.sprite.Group()
@@ -68,6 +72,13 @@ class Game:
             self.window.blit(fly_penguin_img, (100, 200))
             self.started = self.start_button.draw()
 
+        if self.started is True and self.main_music_played is False:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            pygame.mixer.music.load("Assets/main_theme.mp3")
+            pygame.mixer.music.play(-1)
+            self.main_music_played = True
+
         score_text_img = self.game_score_font.render(f"{self.score}", True, (0, 0, 0))
         self.window.blit(score_text_img, (800, 0))
         self.player_group.draw(self.window)
@@ -95,6 +106,11 @@ class Game:
                 self.player.velocity_y = 0
                 self.restarted = False
                 self.started = False
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
+                pygame.mixer.music.load("Assets/starting_screen_music.mp3")
+                pygame.mixer.music.play(-1, fade_ms=2000)
+                self.main_music_played = False
 
             if self.current_time - self.rock_last_spawn >= self.rock_wait_time and self.started is True:
                 rock.Rock((30, 30), random.randrange(-30, -10),
