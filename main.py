@@ -1,6 +1,6 @@
 import pygame
 import bird
-import Player
+import player
 import button
 import rock
 import random
@@ -30,7 +30,7 @@ class Game:
         self.player_group = pygame.sprite.Group()
         self.present_group = pygame.sprite.Group()
 
-        self.player = Player.Player(100, 90, 600, 450, self.player_group)
+        self.player = player.Player(100, 90, 600, 450, self.player_group)
         self.start_button = button.Button(pygame.image.load("Assets/start_button.png"), 600, 600, 0.3, self.window)
         self.restart_button = button.Button(pygame.image.load("Assets/restart_button.png"), 600, 700, 0.3, self.window)
         back_ground = pygame.image.load("Assets/backgound.jpg").convert_alpha()

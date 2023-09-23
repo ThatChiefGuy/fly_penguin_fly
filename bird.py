@@ -12,7 +12,7 @@ class Bird(pygame.sprite.Sprite):
 
         if self.side == "right":
             self.image_list = [pygame.transform.scale(pygame.image.load(
-                "Assets/bird_frames/Frame-1.png"), size),
+                "Assets/bird_frames/frame-1.png"), size),
                                pygame.transform.scale(pygame.image.load(
                                    "Assets/bird_frames/Frame-2.png"), size),
                                pygame.transform.scale(pygame.image.load(
@@ -24,7 +24,7 @@ class Bird(pygame.sprite.Sprite):
         if self.side == "left":
             self.image_list = [pygame.transform.scale(
                                pygame.transform.flip(pygame.image.load(
-                                   "Assets/bird_frames/Frame-1.png"), True, False), size),
+                                   "Assets/bird_frames/frame-1.png"), True, False), size),
                                pygame.transform.scale(
                                pygame.transform.flip(pygame.image.load(
                                    "Assets/bird_frames/Frame-2.png"), True, False), size),
