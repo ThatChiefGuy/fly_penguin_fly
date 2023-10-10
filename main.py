@@ -6,8 +6,6 @@ import rock
 import random
 import math
 import present
-import os
-os.chdir("C:/Users/perop/Fly_penguin")
 
 
 class Game:
