@@ -31,7 +31,7 @@ class Game:
         self.player = player.Player(100, 90, 600, 450, self.player_group)
         self.start_button = button.Button(pygame.image.load("Assets/start_button.png"), 600, 600, 0.3, self.window)
         self.restart_button = button.Button(pygame.image.load("Assets/restart_button.png"), 600, 700, 0.3, self.window)
-        back_ground = pygame.image.load("Assets/backgound.jpg").convert_alpha()
+        back_ground = pygame.image.load("Assets/background.png").convert_alpha()
         self.back_ground = pygame.transform.scale(back_ground, (self.window_width, self.window_height))
         self.back_ground_height = back_ground.get_height()
         self.tiles = math.ceil(self.window_height / self.back_ground_height) + 1
@@ -53,6 +53,7 @@ class Game:
 
         for i in range(0, self.tiles):
             self.window.blit(self.back_ground, (0, i * self.back_ground_height + self.scroll))
+
 
         # draws player hp
         pygame.draw.rect(self.window, (255, 0, 0), (10, 10, self.player.current_health / self.player.health_ratio, 25))
